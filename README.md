@@ -1,13 +1,13 @@
-###### Autor ###################
+# Autor
 
 Imię i nazwisko, nr indeksu (na platformie ekursy)
 Data wykonania: 6.06.2023
 
-###### Repozytorium ############
+# Repozytorium
 
 https://github.com/kayozelke/DigitalSignature
 
-###### Wywołanie skryptów ######
+# Wywołanie skryptów
 
 Utworzenie kluczy, podpisu
 python A.py -filePath <ścieżka do pliku>
@@ -32,14 +32,14 @@ Przed wywołaniem można usunąć zawartość folderów:
 PROSZĘ NIE USUWAĆ WYMIENIONYCH FOLDERÓW, A JEDYNIE ICH ZAWARTOŚĆ.
 
 
-###### Opis działania ##########
+# Opis działania
 
 Część użytkownika A.
 
 1. Wartości P i Q są wyznaczanie z wykorzystaniem TRNG zaimplementowanego w stronę "instaqram.pl", z poprzedniego sprawozdania. Fragment komentarza z kodu:
-	# Liczby p i q są odnajdowane przez przeszukiwanie zawartości "trng_numbers.txt".
-        # Liczba p jest przeszukiwana co bit dla wyrazu 512-bitowego od początku pliku
-        # Liczba q jest przeszukiwana co bit dla wyrazu 512-bitowego od konca pliku
+	- Liczby p i q są odnajdowane przez przeszukiwanie zawartości "trng_numbers.txt".
+        - Liczba p jest przeszukiwana co bit dla wyrazu 512-bitowego od początku pliku
+        - Liczba q jest przeszukiwana co bit dla wyrazu 512-bitowego od konca pliku
 Jeśli liczby spełniają warunki liczb p i q, to są zapisywane do pamięci.
 
 2. Obliczane są brakujące wartości, wyznaczane są klucze (folder "keys")
