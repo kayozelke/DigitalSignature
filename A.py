@@ -10,40 +10,38 @@ import argparse
 
 
 
-def find_prime_numbers(filename):
-    with open(filename, 'r') as file:
-        bits = file.read().strip()
-        length = len(bits)
-        
-        p = None
-        q = None
+def find_prime_numbers(bits):
+    length = len(bits)
+    
+    p = None
+    q = None
 
-        # Liczby p i q są odnajdowane przez przeszukiwanie zawartości "trng_numbers.txt".
-        # Liczba p jest przeszukiwana co bit dla wyrazu 512-bitowego od początku pliku
-        # Liczba q jest przeszukiwana co bit dla wyrazu 512-bitowego od konca pliku
-        # jesli spelniaja warunki, mogą być użyte
-        
-        # Iteracja od początku pliku
-        for i in range(length - 512 + 1):
-            binary_str = bits[i:i+512]
-            decimal_num = int(binary_str, 2)
-            #print(decimal_num)
-            if sympy.isprime(decimal_num) and decimal_num > 0:
+    # Liczby p i q są odnajdowane przez przeszukiwanie zawartości "trng_numbers.txt".
+    # Liczba p jest przeszukiwana co bit dla wyrazu 512-bitowego od początku pliku
+    # Liczba q jest przeszukiwana co bit dla wyrazu 512-bitowego od konca pliku
+    # jesli spelniaja warunki, mogą być użyte
+    
+    # Iteracja od początku pliku
+    for i in range(length - 512 + 1):
+        binary_str = bits[i:i+512]
+        decimal_num = int(binary_str, 2)
+        #print(decimal_num)
+        if sympy.isprime(decimal_num) and decimal_num > 0:
+            p = decimal_num
+            break
+    
+    # Iteracja od końca pliku
+    for i in range(length - 1, 512 - 1, -1):
+        binary_str = bits[i-512+1:i+1]
+        decimal_num = int(binary_str, 2)
+        if sympy.isprime(decimal_num) and decimal_num > 0:
+            if p is None:
                 p = decimal_num
+            else:
+                q = decimal_num
                 break
-        
-        # Iteracja od końca pliku
-        for i in range(length - 1, 512 - 1, -1):
-            binary_str = bits[i-512+1:i+1]
-            decimal_num = int(binary_str, 2)
-            if sympy.isprime(decimal_num) and decimal_num > 0:
-                if p is None:
-                    p = decimal_num
-                else:
-                    q = decimal_num
-                    break
-        
-        return p, q
+    
+    return p, q
 
 def calculate_d(e, f_n):
     def extended_gcd(a, b):
@@ -76,13 +74,9 @@ requests.get(url_generate)
 response = requests.get(url_file)
 content = response.text
 
-# Zapisz zawartość do pliku
-with open('trng/trng_numbers.txt', 'w') as file:
-    file.write(content)
+random_string = content.strip()
 
-with open("trng/trng_numbers.txt", "r") as file:
-    random_string = file.read().strip()
-
+#print(random_string[1:200])
 
 
 
@@ -94,8 +88,7 @@ with open("trng/trng_numbers.txt", "r") as file:
 
 # https://justcryptography.com/rsa-key-pairs/
 
-filename = 'trng/trng_numbers.txt'
-p, q = find_prime_numbers(filename)
+p, q = find_prime_numbers(random_string)
 
 #print(sympy.isprime(p), sympy.isprime(q))
 
@@ -176,7 +169,7 @@ signer = PKCS1_v1_5.new(private_key)
 signature = signer.sign(sha_content)
 
 # Save siganture
-with open("shared_file/shared_signature.txt", "w") as file:
+with open("shared_sign/shared_signature.txt", "w") as file:
     file.write(signature.hex())
 
     print("Signature created! Path: sharedfile/shared_signature.txt")

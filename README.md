@@ -43,10 +43,10 @@ Część użytkownika A.
 Jeśli liczby spełniają warunki liczb p i q, to są zapisywane do pamięci.
 
 2. Obliczane są brakujące wartości, wyznaczane są klucze (folder "keys")
-3. Wyznaczany jest skrót podanego w argumentach pliku i utworzony zostaje plik z podpisem (shared_file/shared_signature.txt)
+3. Wyznaczany jest skrót podanego w argumentach pliku i utworzony zostaje plik z podpisem (shared_sign/shared_signature.txt)
 
 Część użytkownika B.
 
-1. Odczytywany jest plik z podpisem.
+1. Odczytywany jest plik podawany w argumencie - plik, który jest podpisywany
 2. Wyznaczany jest skrót podanego w argumentach pliku.
 3. Następuje deszyfrowanie z użyciem klucza publicznego i weryfikacja.

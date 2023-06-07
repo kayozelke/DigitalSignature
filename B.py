@@ -18,7 +18,7 @@ sha_content = SHA256.new()
 sha_content.update(file)
 
 # Open signature file
-with open("shared_file/shared_signature.txt") as f:
+with open("shared_sign/shared_signature.txt") as f:
     signature = f.read()
     signature = bytes.fromhex(signature)
 
@@ -31,7 +31,7 @@ verifier = PKCS1_v1_5.new(public_key)
 
 # Exit code
 if verifier.verify(sha_content, signature):
-    print("Files match!")
+    print("Files match. Signature verified successfully.")
     exit(0)
 else:
     print("Error: Could not verify!")
