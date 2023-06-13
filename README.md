@@ -37,9 +37,9 @@ PROSZĘ NIE USUWAĆ WYMIENIONYCH FOLDERÓW, A JEDYNIE ICH ZAWARTOŚĆ.
 Część użytkownika A.
 
 1. Wartości P i Q są wyznaczanie z wykorzystaniem TRNG zaimplementowanego w stronę "instaqram.pl", z poprzedniego sprawozdania. Fragment komentarza z kodu:
-	- Liczby p i q są odnajdowane przez przeszukiwanie zawartości "trng_numbers.txt".
+	- Liczby p i q są wyszukiwane w odpowiedzi generatora TRNG
         - Liczba p jest przeszukiwana co bit dla wyrazu 512-bitowego od początku pliku
-        - Liczba q jest przeszukiwana co bit dla wyrazu 512-bitowego od konca pliku
+        - Liczba q jest przeszukiwana co bit dla wyrazu 512-bitowego od końca pliku
 Jeśli liczby spełniają warunki liczb p i q, to są zapisywane do pamięci.
 
 2. Obliczane są brakujące wartości, wyznaczane są klucze (folder "keys")
