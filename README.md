@@ -28,7 +28,7 @@ Files match!
 Przed wywołaniem można usunąć zawartość folderów:
 - keys
 - shared_file
-- trng
+
 PROSZĘ NIE USUWAĆ WYMIENIONYCH FOLDERÓW, A JEDYNIE ICH ZAWARTOŚĆ.
 
 
