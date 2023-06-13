@@ -27,7 +27,7 @@ Files match!
 
 Przed wywołaniem można usunąć zawartość folderów:
 - keys
-- shared_file
+- shared_sign
 
 PROSZĘ NIE USUWAĆ WYMIENIONYCH FOLDERÓW, A JEDYNIE ICH ZAWARTOŚĆ.
 
