@@ -1,7 +1,5 @@
 
-from cryptography.hazmat.primitives.asymmetric import rsa
 import sympy
-from cryptography.hazmat.primitives import serialization
 from Crypto.PublicKey import RSA
 from Crypto.Signature import PKCS1_v1_5
 from Crypto.Hash import SHA256
@@ -70,7 +68,7 @@ url_file = 'http://instaqram.pl/final_trn.txt'
 
 requests.get(url_generate)
 
-# Pobierz zawartość pliku
+# Get file content
 response = requests.get(url_file)
 content = response.text
 
@@ -89,7 +87,6 @@ random_string = content.strip()
 # https://justcryptography.com/rsa-key-pairs/
 
 p, q = find_prime_numbers(random_string)
-
 #print(sympy.isprime(p), sympy.isprime(q))
 
 
@@ -100,7 +97,6 @@ f_n = (p-1) * (q - 1)
 #e = 7
 e = 65537
 
-
 d = calculate_d(e,f_n)
 
 #print("n:   ", n)
@@ -109,36 +105,15 @@ d = calculate_d(e,f_n)
 #print("d:   ", d)
 
 
+# Create private key
+RSA_obj = RSA.construct((n, e, d, p, q))
 
-private_key = rsa.RSAPrivateNumbers(
-    p=p,
-    q=q,
-    d=d,
-    dmp1=d % (p - 1),
-    dmq1=d % (q - 1),
-    iqmp=rsa.rsa_crt_iqmp(p, q),
-    public_numbers=rsa.RSAPublicNumbers(e=e, n=n)
-).private_key()
+# Convert private key to PEM format
+private_pem = RSA_obj.export_key(format='PEM', pkcs=8, passphrase=None)
 
-public_key = rsa.RSAPublicNumbers(
-    e=e,
-    n=n,
-).public_key()
+# Create public key
+public_pem = RSA_obj.publickey().export_key(format='PEM')
 
-# Convert private_key to PEM format
-private_pem = private_key.private_bytes(
-    encoding=serialization.Encoding.PEM,
-    format=serialization.PrivateFormat.PKCS8,
-    encryption_algorithm=serialization.NoEncryption()
-)
-
-# Convert public_key to PEM format
-public_pem = public_key.public_bytes(
-    encoding=serialization.Encoding.PEM,
-    format=serialization.PublicFormat.SubjectPublicKeyInfo
-)
-
-# Write keys to file
 with open('./keys/private_key.pem', 'wb') as f:
     f.write(private_pem)
 
@@ -148,9 +123,7 @@ with open('./keys/public_key.pem', 'wb') as f:
 
 
 
-
-# HASHOWANIE I SZYFROWANIE #
-
+## HASHOWANIE I SZYFROWANIE ##
 
 with open(args.filePath, "rb") as f:
     file = f.read()
