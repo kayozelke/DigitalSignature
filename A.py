@@ -105,44 +105,54 @@ d = calculate_d(e,f_n)
 #print("d:   ", d)
 
 
-# Create private key
-RSA_obj = RSA.construct((n, e, d, p, q))
+try:
+    # Create private key
+    RSA_obj = RSA.construct((n, e, d, p, q))
 
-# Convert private key to PEM format
-private_pem = RSA_obj.export_key(format='PEM', pkcs=8, passphrase=None)
+    # Convert private key to PEM format
+    private_pem = RSA_obj.export_key(format='PEM', pkcs=8, passphrase=None)
 
-# Create public key
-public_pem = RSA_obj.publickey().export_key(format='PEM')
+    # Create public key
+    public_pem = RSA_obj.publickey().export_key(format='PEM')
 
-with open('./keys/private_key.pem', 'wb') as f:
-    f.write(private_pem)
+    with open('./keys/private_key.pem', 'wb') as f:
+        f.write(private_pem)
 
-with open('./keys/public_key.pem', 'wb') as f:
-    f.write(public_pem)
-
+    with open('./keys/public_key.pem', 'wb') as f:
+        f.write(public_pem)
+except:
+    print("An error occured. Cannot create RSA file keys")
+    exit(1)
 
 
 
 ## HASHOWANIE I SZYFROWANIE ##
 
-with open(args.filePath, "rb") as f:
-    file = f.read()
 
-# Import private key
-with open("keys/private_key.pem", "r") as myfile:
-    private_key = RSA.importKey(myfile.read())
+try:
+        
+    with open(args.filePath, "rb") as f:
+        file = f.read()
 
-# Make SHA
-sha_content = SHA256.new()
-sha_content.update(file)
+    # Import private key
+    with open("keys/private_key.pem", "r") as myfile:
+        private_key = RSA.importKey(myfile.read())
+
+    # Make SHA
+    sha_content = SHA256.new()
+    sha_content.update(file)
 
 
-# Create siganture
-signer = PKCS1_v1_5.new(private_key)
-signature = signer.sign(sha_content)
+    # Create siganture
+    signer = PKCS1_v1_5.new(private_key)
+    signature = signer.sign(sha_content)
 
-# Save siganture
-with open("shared_sign/shared_signature.txt", "w") as file:
-    file.write(signature.hex())
+    # Save siganture
+    with open("shared_sign/shared_signature.txt", "w") as file:
+        file.write(signature.hex())
 
-    print("Signature created! Path: sharedfile/shared_signature.txt")
+        print("Signature created! Path: sharedfile/shared_signature.txt")
+
+except:
+    print("An error occured. Cannot sign file.")
+    exit(1)
